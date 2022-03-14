@@ -22,9 +22,11 @@
 <!--    <style name="Theme.App" parent="Theme.MaterialComponents.DayNight.*">-->
 <!--        <item name="android:windowTranslucentStatus">true</item>-->
 <!--    </style>-->
-    <style name="Navigationdrawer" parent="ShapeAppearanceOverlay.Material3.NavigationView.Item">
+    <style name="Navigationtext" parent="ShapeAppearanceOverlay.Material3.NavigationView.Item">
         <item name="background">@color/white</item>
         <item name="android:textColorHighlight">#FF0000</item>
+
+
 
     </style>
 </resources>

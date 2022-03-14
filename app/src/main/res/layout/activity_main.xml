@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:navigationIcon="@mipmap/ic_launcher"
-                style = "@style/Navigationdrawer"
+                style = "@style/Navigationtext"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"/>
 
@@ -32,12 +32,13 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
-        style="@style/Navigationdrawer"
+        style="@style/Navigationtext"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/navigation_drawer"
         app:headerLayout="@layout/header_layout"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
