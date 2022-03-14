@@ -23,7 +23,7 @@
 <!--        <item name="android:windowTranslucentStatus">true</item>-->
 <!--    </style>-->
     <style name="Navigationtext" parent="ShapeAppearanceOverlay.Material3.NavigationView.Item">
-        <item name="background">@color/white</item>
+        <item name="background">#4B4B4B</item>
         <item name="android:textColorHighlight">#FF0000</item>
 
 
