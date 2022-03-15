@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/linear1"
         android:background="@drawable/firstbg"
@@ -121,28 +119,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/rec_region"/>
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:text="Nahe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="179dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="Nach 7 Regionen gegliedeert" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/rec_toprestaurent"/>
     </LinearLayout>
 
-
-</ScrollView>
 </RelativeLayout>

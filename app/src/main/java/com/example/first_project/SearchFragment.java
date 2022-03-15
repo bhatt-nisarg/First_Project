@@ -1,64 +1,136 @@
 package com.example.first_project;
 
+import android.app.DownloadManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+
 public class SearchFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    EditText search;
+    Spinner region,category;
+    ArrayList<String> category_list;
 
     public SearchFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SearchFragment newInstance(String param1, String param2) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view =  inflater.inflate(R.layout.fragment_search, container, false);
+        search = view.findViewById(R.id.search_edit);
+        region = view.findViewById(R.id.spinner_region);
+        category = view.findViewById(R.id.spinner_category);
+
+
+
+//        Log.d("puio", String.valueOf(category_list.size()));
+        ArrayAdapter ad
+                = new ArrayAdapter(
+                getContext(),
+                android.R.layout.simple_spinner_item,
+                category_list);
+
+        // set simple layout resource file
+        // for each item of spinner
+        ad.setDropDownViewResource(
+                android.R.layout
+                        .simple_spinner_dropdown_item);
+        category.setAdapter(ad);
+        getHttpResponse();
+        return view;
     }
+
+
+    public void getHttpResponse() {
+
+        String url = "https://swissgourmets.ch/wp-json/job_listing/category_type";
+
+
+        OkHttpClient client = new OkHttpClient();
+        okhttp3.Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+
+                    String recs = response.body().string();
+                    //in below line we make our cardview visible after  we get all the data.
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject reader = new JSONObject(recs);
+                                Log.d("vbcf",reader.toString());
+
+                                JSONArray usersArr = reader.getJSONArray("name");
+
+                                for(int i =0; i < usersArr.length(); i++){
+                                    JSONObject user = usersArr.getJSONObject(i);
+                                    Log.e("user", user.getString("username"));
+                                    category_list.add(user.getString("name"));
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.d("sdd",e.getMessage().toString());
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 }
