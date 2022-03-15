@@ -64,7 +64,7 @@ public class SearchFragment extends Fragment {
         category = view.findViewById(R.id.spinner_category);
 
 
-
+        getHttpResponse();
 //        Log.d("puio", String.valueOf(category_list.size()));
         ArrayAdapter ad
                 = new ArrayAdapter(
@@ -78,7 +78,7 @@ public class SearchFragment extends Fragment {
                 android.R.layout
                         .simple_spinner_dropdown_item);
         category.setAdapter(ad);
-        getHttpResponse();
+
         return view;
     }
 
