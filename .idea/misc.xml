@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/drawable/findbtn_bg.xml" value="0.124" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/drawable/firstbg.xml" value="0.2475" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/drawable/home_menu_icon.xml" value="0.1575" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/drawable/navigation_bg.xml" value="0.1965" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/layout/fragment_contact.xml" value="0.12512664640324214" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/layout/fragment_search.xml" value="0.2" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/layout/header_layout.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android Project/First_Project/app/src/main/res/menu/navigation_drawer.xml" value="0.25729166666666664" />
         <entry key="..\:/Project/Project/First_Project/app/src/main/res/drawable/edittextbox.xml" value="0.1765" />
         <entry key="..\:/Project/Project/First_Project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1765" />
         <entry key="..\:/Project/Project/First_Project/app/src/main/res/layout/activity_main.xml" value="0.22" />
