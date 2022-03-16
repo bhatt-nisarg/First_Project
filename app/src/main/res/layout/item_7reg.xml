@@ -8,6 +8,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         app:cardCornerRadius="10dp"
+
         >
 
         <RelativeLayout
@@ -19,15 +20,45 @@
                 android:layout_height="match_parent"
                 android:id="@+id/item_7backimg"
                 android:scaleType="fitXY"
-                android:layout_centerInParent="true"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/item_7circleimg"
-                android:background="@drawable/restaurants_menu_cirlce"
-                android:scaleType="fitXY"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:background="@color/black"
+                />
+            <androidx.cardview.widget.CardView
 
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_centerInParent="true"
+                android:backgroundTint="@android:color/transparent"
+                >
+            <ImageView
+                android:background="@drawable/restaurants_menu_cirlce"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:id="@+id/item_7circleimg"
+                android:scaleType="fitXY"
+                android:layout_gravity="center"
+                android:layout_centerInParent="true"
+               />
+             <TextView
+                 android:layout_marginTop="2dp"
+                 android:layout_width="20dp"
+                 android:layout_height="20dp"
+                 android:id="@+id/numofItem"
+                 android:layout_gravity="end"
+                 android:layout_marginRight="3dp"
+                 android:background="@drawable/circlenum_item"
+                 android:textColor="@color/black"
+                 android:gravity="center"
+                 />
+             <ImageView
+                 android:layout_width="60dp"
+                 android:layout_height="60dp"
+                 android:layout_gravity="center"
+                 android:id="@+id/icon_image"
+                 android:background="@drawable/restaurants_menu_cirlce"
+                 />
+
+            </androidx.cardview.widget.CardView>
             <TextView
                 android:textColor="@color/white"
                 android:id="@+id/text_7reg"

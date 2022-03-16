@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,11 +43,16 @@ import okhttp3.Response;
 
 
 public class SearchFragment extends Fragment {
-
-
+    MyRecyclerViewAdapter myRecyclerViewAdapter;
+    //it is for first linear layout spinner and its search functionality
     EditText search;
     Spinner region,category;
     List<String> category_list = new ArrayList<String>();
+
+    //here 7 region initialization
+    ArrayList<HashMap<String,String>> reg_7List= new ArrayList<>();
+    RecyclerView rec7reg;
+    List<String> regSpinner = new ArrayList<>();
 
 
     public SearchFragment() {
@@ -62,67 +69,24 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_search, container, false);
+
+        //it is spinner view id
         search = view.findViewById(R.id.search_edit);
         region = view.findViewById(R.id.spinner_region);
         category = view.findViewById(R.id.spinner_category);
 
 
-//        getHttpResponse();
+        //it is for category Spinner
         new GetContacts().execute();
-//        Log.d("puio", String.valueOf(category_list.size()));
 
+        //it is for 7 region recyclerview
+        rec7reg = view.findViewById(R.id.rec_7region);
+        new GetRegion7().execute();
 
         return view;
     }
 
-
-//    public void getHttpResponse() {
-//
-//        OkHttpClient client = new OkHttpClient();
-//        Request request = new Request.Builder()
-//                .url(url)
-//                .build();
-//        Log.d("qwer",url);
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                if (response.isSuccessful()){
-//
-//                    String categ = response.body().string();
-//                    //in below line we make our cardview visible after  we get all the data.
-//                    Log.d("fgrt",categ);
-//                    getActivity().runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try {
-//                                JSONObject reader = new JSONObject(categ);
-//                                JSONObject c = reader.getJSONObject("data");
-//                                Log.d("vbcf",reader.toString());
-//
-//                                JSONArray restaurentCat = c.getJSONArray("category");
-//
-//                                for(int i =0; i < restaurentCat.length(); i++){
-//                                    JSONObject cat = restaurentCat.getJSONObject(i);
-//                                    category_list.add(cat.getString("name"));
-//                                }
-//
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                                Log.d("sdd",e.getMessage().toString());
-//                            }
-//                        }
-//                    });
-//                }
-//            }
-//        });
-//    }
-
+    //category spinner json parsing
     private class GetContacts extends AsyncTask<Void,Void,Void>{
 
 
@@ -191,6 +155,96 @@ public class SearchFragment extends Fragment {
                     android.R.layout
                             .simple_spinner_dropdown_item);
             category.setAdapter(ad);
+        }
+    }
+
+
+    //here the code is for 7 region recycler view
+    private class GetRegion7 extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler();
+
+            //Making request to url and getting response
+            String url = "https://swissgourmets.ch/wp-json/job_listing/region_data";
+            Log.d("qwes", url);
+            String jsonStrRegion = handler.makeServiceCall(url);
+            Log.d("anmb", jsonStrRegion);
+            if (jsonStrRegion != null) {
+                try {
+
+                    JSONObject jsonObjRegion = new JSONObject(jsonStrRegion);
+                    Log.d("frty",jsonObjRegion.toString());
+                    //getting Json Array node
+                    JSONObject jr = jsonObjRegion.getJSONObject("data");
+                    JSONArray cat = jr.getJSONArray("rgn_info");
+
+                    Log.d("lkjh", cat.toString());
+
+                    //looping through All Contacts
+                    for (int i = 0; i < cat.length(); i++) {
+
+                        JSONObject cr = cat.getJSONObject(i);
+                        Log.d("ccccc", cr.toString());
+                        String id = cr.getString("id");
+                        String name = cr.getString("name");
+                        String count = cr.getString("count");
+                        String img_url = cr.getString("img_url");
+                        String icon_url = cr.getString("icon_url");
+                        Log.d("fghy", id + "==" + name + "==" + count + "==" + img_url + "==" + icon_url);
+
+                        HashMap<String,String> tempregionList = new HashMap<>();
+                        tempregionList.put("id",id);
+                        tempregionList.put("name",name);
+                        tempregionList.put("count",count);
+                        tempregionList.put("img_url",img_url);
+                        tempregionList.put("icon_url",icon_url);
+
+                        //add region 7 list
+                        reg_7List.add(tempregionList);
+                        regSpinner.add(name);
+                        Log.d("llli",reg_7List.toString());
+
+                    }
+
+
+
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+            rec7reg.setLayoutManager(layoutManager);
+            myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(),reg_7List);
+            rec7reg.setAdapter(myRecyclerViewAdapter);
+            myRecyclerViewAdapter.notifyDataSetChanged();
+
+
+            //spinner data
+            ArrayAdapter reg
+                    = new ArrayAdapter(
+                    getContext(),
+                    android.R.layout.simple_spinner_item,
+                    regSpinner);
+
+            // set simple layout resource file
+            // for each item of spinner
+            reg.setDropDownViewResource(
+                    android.R.layout
+                            .simple_spinner_dropdown_item);
+            region.setAdapter(reg);
+
+
         }
     }
 }
