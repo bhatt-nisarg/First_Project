@@ -54,6 +54,10 @@ public class SearchFragment extends Fragment {
     RecyclerView rec7reg;
     List<String> regSpinner = new ArrayList<>();
 
+    //here Top restaurants initialization
+    ArrayList<HashMap<String,String>> top_restaurant = new ArrayList<>();
+    RecyclerView rectop_restaurant;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -82,6 +86,10 @@ public class SearchFragment extends Fragment {
         //it is for 7 region recyclerview
         rec7reg = view.findViewById(R.id.rec_7region);
         new GetRegion7().execute();
+
+        //it is for top restaurants
+        rectop_restaurant = view.findViewById(R.id.rec_TopRestaurant);
+        new TopRestaurant().execute();
 
         return view;
     }
@@ -207,9 +215,6 @@ public class SearchFragment extends Fragment {
                         Log.d("llli",reg_7List.toString());
 
                     }
-
-
-
                 } catch (final JSONException e) {
                     e.printStackTrace();
                 }
@@ -228,6 +233,7 @@ public class SearchFragment extends Fragment {
             myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(),reg_7List);
             rec7reg.setAdapter(myRecyclerViewAdapter);
             myRecyclerViewAdapter.notifyDataSetChanged();
+            rec7reg.setNestedScrollingEnabled(false);
 
 
             //spinner data
@@ -247,4 +253,80 @@ public class SearchFragment extends Fragment {
 
         }
     }
+
+    private class TopRestaurant extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler();
+
+            //Making request to url and getting response
+            String url = "https://swissgourmets.ch/wp-json/job_listing/categories_data";
+            Log.d("qwes", url);
+            String jsonTopRestaurant = handler.makeServiceCall(url);
+            Log.d("anmb", jsonTopRestaurant);
+            if (jsonTopRestaurant != null) {
+                try {
+
+                    JSONObject jsonTopres = new JSONObject(jsonTopRestaurant);
+                    Log.d("frty",jsonTopres.toString());
+                    //getting Json Array node
+                    JSONObject jtoprs = jsonTopres.getJSONObject("data");
+                    JSONArray cat = jtoprs.getJSONArray("cat_info");
+
+                    Log.d("lkjh", cat.toString());
+
+                    //looping through All Contacts
+                    for (int i = 0; i < cat.length(); i++) {
+
+                        JSONObject ctop = cat.getJSONObject(i);
+                        Log.d("ccccc", ctop.toString());
+                        String id = ctop.getString("id");
+                        String name = ctop.getString("name");
+                        String count = ctop.getString("count");
+                        String img_url = ctop.getString("img_url");
+                        String icon_url = ctop.getString("icon_url");
+                        Log.d("fghy", id + "==" + name + "==" + count + "==" + img_url + "==" + icon_url);
+
+                        HashMap<String,String> tempregionListTop = new HashMap<>();
+                        tempregionListTop.put("id",id);
+                        tempregionListTop.put("name",name);
+                        tempregionListTop.put("count",count);
+                        tempregionListTop.put("img_url",img_url);
+                        tempregionListTop.put("icon_url",icon_url);
+
+                        //add region 7 list
+                        top_restaurant.add(tempregionListTop);
+
+
+
+                    }
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+            rectop_restaurant.setLayoutManager(layoutManager);
+            myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(),top_restaurant);
+            rectop_restaurant.setAdapter(myRecyclerViewAdapter);
+            myRecyclerViewAdapter.notifyDataSetChanged();
+            rectop_restaurant.setNestedScrollingEnabled(false);
+
+
+
+
+
+        }
+
+    }
+
 }
