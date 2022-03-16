@@ -132,7 +132,8 @@
             android:layout_below="@id/linear2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linear3">
             <TextView
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
@@ -155,7 +156,33 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/rec_TopRestaurant"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_below="@id/linear3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:text="Freunde empfehlen Dir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:text="Gourment-Restaurants in Deiner Nahe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/single_reclist"/>
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

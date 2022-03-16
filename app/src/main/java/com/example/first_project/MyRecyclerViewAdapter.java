@@ -27,7 +27,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_7reg, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_7reg,parent,false);
+
         return new ViewHolder(view);
     }
 
@@ -51,7 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView backgroungImg,iconImage;
+        ImageView backgroungImg,iconImage,single_imagelist;
         TextView count_item,title;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +60,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             iconImage = (ImageView) itemView.findViewById(R.id.icon_image);
             count_item = (TextView) itemView.findViewById(R.id.numofItem);
             title = (TextView) itemView.findViewById(R.id.text_7reg);
+
 
         }
     }

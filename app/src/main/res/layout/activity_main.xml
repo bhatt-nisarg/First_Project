@@ -18,7 +18,7 @@
                 android:layout_height="?actionBarSize"
                 app:navigationIcon="@drawable/home_menu_icon"
                 android:background="@android:color/transparent"
-                android:elevation="0dp"/>
+                android:elevation="8dp"/>
         <FrameLayout
             android:id="@+id/frame_container"
             android:layout_width="match_parent"

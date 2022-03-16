@@ -48,17 +48,20 @@ public class MainActivity extends AppCompatActivity  {
                         fragment = new SearchFragment();
                         loadFragment(fragment);
                         item.setChecked(true);
+
                         return true;
 
                     case R.id.news:
                         fragment = new NewsFragment();
                         item.setChecked(true);
                         loadFragment(fragment);
+
                         return true;
                     case R.id.contact:
                         fragment = new ContactFragment();
                         item.setChecked(true);
                         loadFragment(fragment);
+
                         return true;
 
                 }
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+
     }
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -74,6 +78,7 @@ public class MainActivity extends AppCompatActivity  {
         transaction.addToBackStack(null);
         transaction.commit();
         drawerLayout.closeDrawers();
+
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
