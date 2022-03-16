@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,7 +45,8 @@ public class SearchFragment extends Fragment {
 
     EditText search;
     Spinner region,category;
-    ArrayList<String> category_list;
+    List<String> category_list = new ArrayList<String>();
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -64,73 +67,130 @@ public class SearchFragment extends Fragment {
         category = view.findViewById(R.id.spinner_category);
 
 
-        getHttpResponse();
+//        getHttpResponse();
+        new GetContacts().execute();
 //        Log.d("puio", String.valueOf(category_list.size()));
-        ArrayAdapter ad
-                = new ArrayAdapter(
-                getContext(),
-                android.R.layout.simple_spinner_item,
-                category_list);
 
-        // set simple layout resource file
-        // for each item of spinner
-        ad.setDropDownViewResource(
-                android.R.layout
-                        .simple_spinner_dropdown_item);
-        category.setAdapter(ad);
 
         return view;
     }
 
 
-    public void getHttpResponse() {
+//    public void getHttpResponse() {
+//
+//        OkHttpClient client = new OkHttpClient();
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+//        Log.d("qwer",url);
+//        client.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if (response.isSuccessful()){
+//
+//                    String categ = response.body().string();
+//                    //in below line we make our cardview visible after  we get all the data.
+//                    Log.d("fgrt",categ);
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try {
+//                                JSONObject reader = new JSONObject(categ);
+//                                JSONObject c = reader.getJSONObject("data");
+//                                Log.d("vbcf",reader.toString());
+//
+//                                JSONArray restaurentCat = c.getJSONArray("category");
+//
+//                                for(int i =0; i < restaurentCat.length(); i++){
+//                                    JSONObject cat = restaurentCat.getJSONObject(i);
+//                                    category_list.add(cat.getString("name"));
+//                                }
+//
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                Log.d("sdd",e.getMessage().toString());
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//    }
 
-        String url = "https://swissgourmets.ch/wp-json/job_listing/category_type";
+    private class GetContacts extends AsyncTask<Void,Void,Void>{
 
 
-        OkHttpClient client = new OkHttpClient();
-        okhttp3.Request request = new Request.Builder()
-                .url(url)
-                .build();
+        @Override
+        protected Void doInBackground(Void...voids) {
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
+            Handler handler = new Handler();
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()){
+            //Making request to url and getting response
+            String url = "https://swissgourmets.ch/wp-json/job_listing/category_type";
+            Log.d("qwes", url);
+            String jsonStr = handler.makeServiceCall(url);
+            Log.d("anmb", jsonStr);
+            if (jsonStr != null) {
+                try {
 
-                    String recs = response.body().string();
-                    //in below line we make our cardview visible after  we get all the data.
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    Log.d("frty",jsonObj.toString());
+                    //getting Json Array node
+                    JSONObject j = jsonObj.getJSONObject("data");
+                    JSONArray cat = j.getJSONArray("category");
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                JSONObject reader = new JSONObject(recs);
-                                Log.d("vbcf",reader.toString());
+                    Log.d("lkjh", cat.toString());
 
-                                JSONArray usersArr = reader.getJSONArray("name");
+                    //looping through All Contacts
+                    for (int i = 0; i < cat.length(); i++) {
 
-                                for(int i =0; i < usersArr.length(); i++){
-                                    JSONObject user = usersArr.getJSONObject(i);
-                                    Log.e("user", user.getString("username"));
-                                    category_list.add(user.getString("name"));
-                                }
+                        JSONObject c = cat.getJSONObject(i);
+                        Log.d("ccccc", c.toString());
+                        String id = c.getString("id");
+                        String name = c.getString("name");
+                        Log.d("fghy", id + "==" + name);
 
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d("sdd",e.getMessage().toString());
-                            }
-                        }
-                    });
+                        category_list.add(name);
+                        //add contact to list
+
+
+                        Log.d("contactlist", category_list.toString());
+
+                    }
+
+
+
+                } catch (final JSONException e) {
+                    e.printStackTrace();
                 }
-            }
-        });
-    }
 
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            Log.d("mmnnh",category_list.toString());
+            ArrayAdapter ad
+                    = new ArrayAdapter(
+                    getContext(),
+                    android.R.layout.simple_spinner_item,
+                    category_list);
+
+            // set simple layout resource file
+            // for each item of spinner
+            ad.setDropDownViewResource(
+                    android.R.layout
+                            .simple_spinner_dropdown_item);
+            category.setAdapter(ad);
+        }
+    }
 }

@@ -64,6 +64,7 @@
             android:background="@drawable/edittextbox"/>
 
         <LinearLayout
+            android:id="@+id/search_rest"
             android:layout_marginTop="20dp"
             android:layout_width="100dp"
             android:layout_height="40dp"
