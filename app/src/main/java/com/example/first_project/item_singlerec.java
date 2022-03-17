@@ -2,11 +2,9 @@ package com.example.first_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.example.first_project.Adapter.RecAdapterSingle;
 
 public class item_singlerec extends AppCompatActivity {
 

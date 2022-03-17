@@ -1,7 +1,6 @@
-package com.example.first_project;
+package com.example.first_project.Adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.first_project.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package com.example.first_project;
 
-import android.app.DownloadManager;
-import android.content.Intent;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -14,36 +13,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.squareup.picasso.Picasso;
+import com.example.first_project.Adapter.MyRecyclerViewAdapter;
+import com.example.first_project.Adapter.RecAdapterSingle;
+import com.example.first_project.model.Restaurant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-
 public class SearchFragment extends Fragment {
     MyRecyclerViewAdapter myRecyclerViewAdapter;
     //it is for first linear layout spinner and its search functionality
@@ -61,7 +44,7 @@ public class SearchFragment extends Fragment {
     RecyclerView rectop_restaurant;
 
 //    single-list restaurents
-    ArrayList<HashMap<String,String>> single_listrest = new ArrayList<>();
+    ArrayList<Restaurant> single_listrest = new ArrayList<>();
     RecyclerView single_reclist;
     RecAdapterSingle recAdapterSingle;
 
@@ -107,10 +90,8 @@ public class SearchFragment extends Fragment {
     //category spinner json parsing
     private class GetContacts extends AsyncTask<Void,Void,Void>{
 
-
         @Override
         protected Void doInBackground(Void...voids) {
-
             Handler handler = new Handler();
 
             //Making request to url and getting response
@@ -301,18 +282,13 @@ public class SearchFragment extends Fragment {
                         //add region 7 list
                         top_restaurant.add(tempregionListTop);
 
-
-
                     }
                 } catch (final JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
             return null;
         }
-
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
@@ -324,12 +300,7 @@ public class SearchFragment extends Fragment {
             myRecyclerViewAdapter.notifyDataSetChanged();
             rectop_restaurant.setNestedScrollingEnabled(false);
 
-
-
-
-
         }
-
     }
 
     //code for single list restaurent
@@ -357,44 +328,32 @@ public class SearchFragment extends Fragment {
 
                     //looping through All Contacts
                     for (int i = 0; i < cat.length(); i++) {
-
+                        ArrayList<String> smallimagelist= new ArrayList<>();
                         JSONObject cone = cat.getJSONObject(i);
+                        Restaurant restaurant= new Restaurant();
+                        restaurant.setType_id(cone.getInt("id"));
+                        restaurant.setRestaurant_name(cone.getString("restaurant_name"));
+                        restaurant.setRestaurant_address(cone.getString("address"));
+                        restaurant.setImageUrl(cone.getString("restaurant_image"));
                         Log.d("ccccc", cone.toString());
-                        String id = cone.getString("id");
-                        String res_name = cone.getString("restaurant_name");
-                        String res_img = cone.getString("restaurant_image");
-                        String res_address = cone.getString("address");
-                        HashMap<String,String> tempsinglelist = new HashMap<>();
-                        JSONArray ab = cone.getJSONArray("small_icon_categories");
-                            for (int j =0 ;j<=ab.length();j++) {
-                                JSONObject s = ab.getJSONObject(i);
-                                String small_icon = s.getString("small_image");
+                        JSONArray jsonsmall_img = cone.getJSONArray("small_icon_categories");
 
-                                tempsinglelist.put("small_icon",small_icon);
+                        for (int j = 0; j < jsonsmall_img.length(); j++) {
+                            JSONObject jsonObject2 = jsonsmall_img.getJSONObject(j);
+                            smallimagelist.add(jsonObject2.getString("small_image"));
+                        }
 
+                            restaurant.setStringArrayList(smallimagelist);
+                        single_listrest.add(restaurant);
 
-                            }
-
-
-                        tempsinglelist.put("res_id",id);
-                        tempsinglelist.put("res_name",res_name);
-                        tempsinglelist.put("res_img",res_img);
-                        tempsinglelist.put("res_address",res_address);
-
-                        //add
-                        single_listrest.add(tempsinglelist);
-                        Log.d("truy",single_listrest.toString());
 
                     }
                 } catch (final JSONException e) {
                     e.printStackTrace();
                 }
-
             }
-
             return null;
         }
-
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
@@ -405,8 +364,6 @@ public class SearchFragment extends Fragment {
             single_reclist.setAdapter(recAdapterSingle);
             recAdapterSingle.notifyDataSetChanged();
             single_reclist.setNestedScrollingEnabled(false);
-
-
         }
     }
 
