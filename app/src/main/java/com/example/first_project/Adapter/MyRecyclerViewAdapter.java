@@ -1,6 +1,7 @@
 package com.example.first_project.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.first_project.R;
+import com.example.first_project.Activity.restaurent_clicked;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,6 +45,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Picasso.with(context)
                 .load(mInfoList.get(position).get("icon_url"))
                 .into(holder.iconImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, restaurent_clicked.class);
+                context.startActivity(i);
+            }
+        });
 
     }
 

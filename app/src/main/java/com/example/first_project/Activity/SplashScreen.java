@@ -1,12 +1,12 @@
-package com.example.first_project;
+package com.example.first_project.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+
+import com.example.first_project.R;
 
 public class SplashScreen extends AppCompatActivity {
     private static final int SPLASH_SCREEN_TIME_OUT = 4000;

@@ -43,6 +43,7 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
         holder.single_restname.setText(single_catList.get(position).getRestaurant_name());
         holder.single_address.setText(single_catList.get(position).getRestaurant_address());
         holder.small_image_recyclerview.setLayoutManager(new GridLayoutManager(context, 6));
+        holder.rating.setText( single_catList.get(position).getRating()+"");
         ArrayList<String> list = new ArrayList<>();
         list = single_catList.get(position).getStringArrayList();
         for (int j = 0; j < list.size(); j++) {
@@ -64,7 +65,7 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView single_image;
-        TextView single_restname,single_address;
+        TextView single_restname,single_address,rating;
         RecyclerView small_image_recyclerview;
         private ArrayList<Restaurant> restaurant_img_list= new ArrayList<Restaurant>();
         public ViewHolder(@NonNull View itemView) {
@@ -73,6 +74,7 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
             single_restname = itemView.findViewById(R.id.rest_singlename);
             single_address = itemView.findViewById(R.id.rest_singaddress);
             small_image_recyclerview = itemView.findViewById(R.id.small_iconrec);
+            rating = itemView.findViewById(R.id.reting);
         }
     }
 }
