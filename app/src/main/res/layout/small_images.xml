@@ -8,8 +8,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/small_image"
             android:background="@drawable/small_iconbg"
             android:layout_margin="8dp"/>
