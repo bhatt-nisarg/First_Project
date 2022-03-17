@@ -584,7 +584,7 @@ public class SearchFragment extends Fragment {
                 prime_res = okHttpClient.newCall(prime_rest).execute();
                 String jsonData = prime_res.body().string();
                 JSONObject jsonsingleres = new JSONObject(jsonData);
-                Log.d("frty",jsonsingleres.toString());
+                Log.d("66666",jsonsingleres.toString());
                 //getting Json Array node
 
                 int success = jsonsingleres.getInt("success");
@@ -606,6 +606,7 @@ public class SearchFragment extends Fragment {
                     restaurant.setRestaurant_address(cone.getString("address"));
                     restaurant.setImageUrl(cone.getString("restaurant_image"));
                     restaurant.setRating(cone.getDouble("rating"));
+                    Log.d("fdg", String.valueOf(cone.getDouble("rating")));
                     Log.d("ccccc", cone.toString());
                     JSONArray jsonsmall_img = cone.getJSONArray("small_icon_categories");
 
