@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    android:layout_height="wrap_content"
+    >
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/c1">
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/single_listimg"
+        android:scaleType="fitXY"/>
+</androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:layout_below="@id/c1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/single_listimg"/>
+
+
         <TextView
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/yellow"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:textSize="20dp"
             android:id="@+id/rest_singlename"/>
         <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:id="@+id/rest_singaddress"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="5dp"
             android:id="@+id/small_iconrec"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

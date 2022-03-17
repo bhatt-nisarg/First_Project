@@ -1,11 +1,13 @@
 package com.example.first_project;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -58,9 +60,11 @@ public class SearchFragment extends Fragment {
     ArrayList<HashMap<String,String>> top_restaurant = new ArrayList<>();
     RecyclerView rectop_restaurant;
 
-    //single-list restaurents
-//    ArrayList<HashMap<String,String>> single_listrest = new ArrayList<>();
-//    RecyclerView single_reclist;
+//    single-list restaurents
+    ArrayList<HashMap<String,String>> single_listrest = new ArrayList<>();
+    RecyclerView single_reclist;
+    RecAdapterSingle recAdapterSingle;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -95,8 +99,8 @@ public class SearchFragment extends Fragment {
         new TopRestaurant().execute();
 
         //it is for single list restaurent
-//        single_reclist = view.findViewById(R.id.single_reclist);
-//        new SingleRestaurent().execute();
+        single_reclist = view.findViewById(R.id.single_reclist);
+        new SingleRestaurent().execute();
         return view;
     }
 
@@ -140,19 +144,13 @@ public class SearchFragment extends Fragment {
 
 
                         Log.d("contactlist", category_list.toString());
-
                     }
-
-
-
                 } catch (final JSONException e) {
                     e.printStackTrace();
                 }
-
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
@@ -171,8 +169,6 @@ public class SearchFragment extends Fragment {
             category.setAdapter(ad);
         }
     }
-
-
     //code for 7 region recycler view
     private class GetRegion7 extends AsyncTask<Void,Void,Void>{
 
@@ -337,83 +333,81 @@ public class SearchFragment extends Fragment {
     }
 
     //code for single list restaurent
-//    private class SingleRestaurent extends AsyncTask<Void,Void,Void>{
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            Handler handler = new Handler();
-//
-//            //Making request to url and getting response
-//            String url = "https://swissgourmets.ch/wp-json/job_listing/prime_restaurents";
-//            Log.d("qwes", url);
-//            String jsonsingleList = handler.makeServiceCall(url);
-//            Log.d("anmb", jsonsingleList);
-//            if (jsonsingleList != null) {
-//                try {
-//
-//                    JSONObject jsonsingleres = new JSONObject(jsonsingleList);
-//                    Log.d("frty",jsonsingleres.toString());
-//                    //getting Json Array node
-//                    JSONObject jone = jsonsingleres.getJSONObject("data");
-//                    JSONArray cat = jone.getJSONArray("resto_info");
-//
-//                    Log.d("lkjh", cat.toString());
-//                    HashMap<String,String> tempsinglelist = new HashMap<>();
-//                    //looping through All Contacts
-//                    for (int i = 0; i < cat.length(); i++) {
-//
-//                        JSONObject cone = cat.getJSONObject(i);
-//                        Log.d("ccccc", cone.toString());
-//                        String id = cone.getString("id");
-//                        String res_name = cone.getString("restaurant_name");
-//                        String res_img = cone.getString("restaurant_image");
-//                        String res_address = cone.getString("address");
-//
-//                        JSONArray ab = cone.getJSONArray("small_icon_categories");
-//                        for (int j = 0 ; j< ab.length();j++){
-//                            JSONObject s = ab.getJSONObject(i);
-//                            String small_img = s.getString("small_image");
-//                            tempsinglelist.put("small_img",small_img);
-//                        }
-//
-//                        tempsinglelist.put("res_id",id);
-//                        tempsinglelist.put("res_name",res_name);
-//                        tempsinglelist.put("res_img",res_img);
-//                        tempsinglelist.put("res_address",res_address);
-//
-//
-//
-//                        //add
-//                        single_listrest.add(tempsinglelist);
-//
-//
-//
-//                    }
-//                } catch (final JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void unused) {
-//            super.onPostExecute(unused);
-//
-//            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
-//            single_reclist.setLayoutManager(layoutManager);
-//            myRecyclerViewAdapter = new MyRecyclerViewAdapter(getContext(),single_listrest);
-//            single_reclist.setAdapter(myRecyclerViewAdapter);
-//            myRecyclerViewAdapter.notifyDataSetChanged();
-//            single_reclist.setNestedScrollingEnabled(false);
-//
-//
-//
-//
-//
-//        }
-//    }
+    private class SingleRestaurent extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Handler handler = new Handler();
+
+            //Making request to url and getting response
+            String url = "https://swissgourmets.ch/wp-json/job_listing/prime_restaurents";
+            Log.d("qwes", url);
+            String jsonsingleList = handler.makeServiceCall(url);
+            Log.d("anmb", jsonsingleList);
+            if (jsonsingleList != null) {
+                try {
+
+                    JSONObject jsonsingleres = new JSONObject(jsonsingleList);
+                    Log.d("frty",jsonsingleres.toString());
+                    //getting Json Array node
+                    JSONObject jone = jsonsingleres.getJSONObject("data");
+                    JSONArray cat = jone.getJSONArray("resto_info");
+
+                    Log.d("lkjh", cat.toString());
+
+                    //looping through All Contacts
+                    for (int i = 0; i < cat.length(); i++) {
+
+                        JSONObject cone = cat.getJSONObject(i);
+                        Log.d("ccccc", cone.toString());
+                        String id = cone.getString("id");
+                        String res_name = cone.getString("restaurant_name");
+                        String res_img = cone.getString("restaurant_image");
+                        String res_address = cone.getString("address");
+                        HashMap<String,String> tempsinglelist = new HashMap<>();
+                        JSONArray ab = cone.getJSONArray("small_icon_categories");
+                            for (int j =0 ;j<=ab.length();j++) {
+                                JSONObject s = ab.getJSONObject(i);
+                                String small_icon = s.getString("small_image");
+
+                                tempsinglelist.put("small_icon",small_icon);
+
+
+                            }
+
+
+                        tempsinglelist.put("res_id",id);
+                        tempsinglelist.put("res_name",res_name);
+                        tempsinglelist.put("res_img",res_img);
+                        tempsinglelist.put("res_address",res_address);
+
+                        //add
+                        single_listrest.add(tempsinglelist);
+                        Log.d("truy",single_listrest.toString());
+
+                    }
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            single_reclist.setLayoutManager(layoutManager);
+            recAdapterSingle = new RecAdapterSingle(getContext(),single_listrest);
+            single_reclist.setAdapter(recAdapterSingle);
+            recAdapterSingle.notifyDataSetChanged();
+            single_reclist.setNestedScrollingEnabled(false);
+
+
+        }
+    }
 
 }
