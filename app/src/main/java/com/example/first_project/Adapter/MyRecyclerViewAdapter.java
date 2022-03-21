@@ -50,6 +50,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, restaurent_clicked.class);
+                i.putExtra("title",mInfoList.get(position).get("name"));
+                i.putExtra("count", mInfoList.get(position).get("count"));
                 context.startActivity(i);
             }
         });

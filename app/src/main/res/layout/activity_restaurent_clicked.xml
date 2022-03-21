@@ -14,6 +14,7 @@
         android:weightSum="1">
 
         <TextView
+            android:id="@+id/clicked_back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="8dp"
@@ -63,6 +64,7 @@
         android:layout_below="@id/linear2"
         />
     <TextView
+        android:id="@+id/load_more"
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_marginBottom="10dp"

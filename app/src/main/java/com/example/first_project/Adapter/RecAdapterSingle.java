@@ -43,7 +43,11 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
         holder.single_restname.setText(single_catList.get(position).getRestaurant_name());
         holder.single_address.setText(single_catList.get(position).getRestaurant_address());
         holder.small_image_recyclerview.setLayoutManager(new GridLayoutManager(context, 6));
-        holder.rating.setText( single_catList.get(position).getRating()+"");
+        if (single_catList.get(position).getRating() != 0.0) {
+            holder.rating.setText(single_catList.get(position).getRating() + "");
+        }else{
+            holder.rating.setVisibility(View.INVISIBLE);
+        }
         ArrayList<String> list = new ArrayList<>();
         list = single_catList.get(position).getStringArrayList();
         for (int j = 0; j < list.size(); j++) {
