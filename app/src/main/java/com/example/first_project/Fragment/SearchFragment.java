@@ -470,8 +470,6 @@ public class SearchFragment extends Fragment {
 
                         category_list.add(name);
                         //add contact to list
-
-
                         Log.d("contactlist", category_list.toString());
                     }
                 }else {
@@ -486,6 +484,7 @@ public class SearchFragment extends Fragment {
 
             // get 7 region data
             try {
+
                 region_res = okHttpClient.newCall(region_req).execute();
                 String jsonData = region_res.body().string();
                 JSONObject jsonObjRegion = new JSONObject(jsonData);
