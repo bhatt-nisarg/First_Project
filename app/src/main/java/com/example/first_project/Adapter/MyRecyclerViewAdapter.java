@@ -1,5 +1,4 @@
 package com.example.first_project.Adapter;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.first_project.R;
 import com.example.first_project.Activity.restaurent_clicked;
 import com.example.first_project.model.Restaurant;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,7 +28,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_7reg,parent,false);
-
         return new ViewHolder(view);
     }
 
@@ -51,12 +46,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Restaurant res = new Restaurant();
+                Restaurant res = new Restaurant();
                 Intent i = new Intent(context, restaurent_clicked.class);
-                i.putExtra("title",mInfoList.get(position).get("title"));
+                i.putExtra("title",mInfoList.get(position).get("name"));
                 i.putExtra("count", mInfoList.get(position).get("count"));
                 i.putExtra("id",mInfoList.get(position).get("id"));
-                Log.d("nnnnn",mInfoList.get(position).get("id")+"");
+                i.putExtra("address",mInfoList.get(position).get("address"));
+                Log.d("nnnnn",mInfoList.get(position).get("id")+"=="+mInfoList.get(position).get("address"));
+                Log.d("frgt",mInfoList.get(position).get("name"));
                 context.startActivity(i);
             }
         });

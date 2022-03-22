@@ -1,5 +1,4 @@
 package com.example.first_project.Adapter;
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,15 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.first_project.R;
 import com.example.first_project.model.Restaurant;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.ViewHolder> {
@@ -36,7 +32,6 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
 
     @Override
     public void onBindViewHolder(@NonNull RecAdapterSingle.ViewHolder holder, int position) {
-
         Picasso.with(context)
                 .load(single_catList.get(position).getImageUrl())
                 .into(holder.single_image);
@@ -55,18 +50,18 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
             restaurant_image.setImageurl_small(list.get(j));
             holder.restaurant_img_list.add(restaurant_image);
             Log.d("vfg",position+ " ==" + list.get(j));
+            Log.d("qwer", String.valueOf(list.size()));
         }
         SmallImage_Adapter smallImage_adapter= new SmallImage_Adapter(context,holder.restaurant_img_list);
         holder.small_image_recyclerview.setAdapter(smallImage_adapter);
         Log.d("zxc", String.valueOf(single_catList.get(position).getStringArrayList().size()));
-
+        holder.setIsRecyclable(false);
     }
 
     @Override
     public int getItemCount() {
         return single_catList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView single_image;
         TextView single_restname,single_address,rating;
@@ -80,5 +75,13 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
             small_image_recyclerview = itemView.findViewById(R.id.small_iconrec);
             rating = itemView.findViewById(R.id.reting);
         }
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

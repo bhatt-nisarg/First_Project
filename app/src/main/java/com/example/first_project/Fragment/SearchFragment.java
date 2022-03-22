@@ -1,16 +1,11 @@
 package com.example.first_project.Fragment;
-
-
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,28 +15,22 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.first_project.Adapter.MyRecyclerViewAdapter;
 import com.example.first_project.Adapter.RecAdapterSingle;
-import com.example.first_project.Handler;
 import com.example.first_project.R;
 import com.example.first_project.model.Restaurant;
 import com.example.first_project.utils.AppConstants;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 public class SearchFragment extends Fragment {
     MyRecyclerViewAdapter myRecyclerViewAdapter;
     private ProgressDialog pDialog;
@@ -63,8 +52,6 @@ public class SearchFragment extends Fragment {
     ArrayList<Restaurant> single_listrest = new ArrayList<>();
     RecyclerView single_reclist;
     RecAdapterSingle recAdapterSingle;
-
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -73,8 +60,6 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,8 +70,6 @@ public class SearchFragment extends Fragment {
         search = view.findViewById(R.id.search_edit);
         region = view.findViewById(R.id.spinner_region);
         category = view.findViewById(R.id.spinner_category);
-
-
         //it is for category Spinner
 //        new GetContacts().execute();
 
@@ -101,8 +84,6 @@ public class SearchFragment extends Fragment {
         //it is for single list restaurent
         single_reclist = view.findViewById(R.id.single_reclist);
 //        new SingleRestaurent().execute();
-
-
         pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Warten Sie mal...");
         pDialog.setCancelable(false);
@@ -112,6 +93,7 @@ public class SearchFragment extends Fragment {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         //new class all in one
         new OkHttpHandler().execute(new String[]{AppConstants.CATEGORIES_AND_TYPE,AppConstants.REGION_DATA,AppConstants.CATEGORIES_DATA,AppConstants.PRIME_RESTAURENTS});
+//        new OkHttpHandler_search().execute(new String(AppConstants.SEARCH_RESULT_DATA));
         return view;
     }
 
@@ -395,8 +377,6 @@ public class SearchFragment extends Fragment {
 //            single_reclist.setNestedScrollingEnabled(false);
 //        }
 //    }
-
-
     //   .................................................
     ///..............................................
     ///......................................................................
@@ -412,7 +392,6 @@ public class SearchFragment extends Fragment {
     }
 
     private class OkHttpHandler extends AsyncTask<String,Void,String>{
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -427,7 +406,6 @@ public class SearchFragment extends Fragment {
                     .writeTimeout(10,TimeUnit.SECONDS)
                     .readTimeout(10,TimeUnit.SECONDS)
                     .build();
-
             Request request,region_req,top_req,prime_rest;
             request = new Request.Builder()
                     .url(url[0])
@@ -455,9 +433,7 @@ public class SearchFragment extends Fragment {
                 if (success == 1){
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     JSONArray cat = jsonObject1.getJSONArray("category");
-
                     Log.d("lkjh", cat.toString());
-
                     //looping through All Contacts
                     for (int i = 0; i < cat.length(); i++) {
 
@@ -475,16 +451,11 @@ public class SearchFragment extends Fragment {
                 }else {
                     Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
                 }
-
-
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
-
             // get 7 region data
             try {
-
                 region_res = okHttpClient.newCall(region_req).execute();
                 String jsonData = region_res.body().string();
                 JSONObject jsonObjRegion = new JSONObject(jsonData);
@@ -508,15 +479,13 @@ public class SearchFragment extends Fragment {
                     String count = cr.getString("count");
                     String img_url = cr.getString("img_url");
                     String icon_url = cr.getString("icon_url");
-                    Log.d("fghy", id + "==" + name + "==" + count + "==" + img_url + "==" + icon_url);
-
+                    Log.d("fghy", id + "==" + name + "==" + count + "==" + img_url + "==" + icon_url );
                     HashMap<String, String> tempregionList = new HashMap<>();
                     tempregionList.put("id", id);
                     tempregionList.put("name", name);
                     tempregionList.put("count", count);
                     tempregionList.put("img_url", img_url);
                     tempregionList.put("icon_url", icon_url);
-
                     //add region 7 list
                     reg_7List.add(tempregionList);
                     regSpinner.add(name);
@@ -529,8 +498,6 @@ public class SearchFragment extends Fragment {
                 e.printStackTrace();
             }
 
-
-
             ///top restaurents ................
             try {
                 top_res = okHttpClient.newCall(top_req).execute();
@@ -539,7 +506,6 @@ public class SearchFragment extends Fragment {
                 Log.d("frty",jsonTopres.toString());
                 int success = jsonTopres.getInt("success");
                 String message = jsonTopres.getString("message");
-
                 if (success == 1) {
                     //getting Json Array node
 
@@ -558,7 +524,7 @@ public class SearchFragment extends Fragment {
                         String count = ctop.getString("count");
                         String img_url = ctop.getString("img_url");
                         String icon_url = ctop.getString("icon_url");
-                        Log.d("fghy", id + "==" + name + "==" + count + "==" + img_url + "==" + icon_url);
+
 
                         HashMap<String, String> tempregionListTop = new HashMap<>();
                         tempregionListTop.put("id", id);
@@ -567,7 +533,8 @@ public class SearchFragment extends Fragment {
                         tempregionListTop.put("img_url", img_url);
                         tempregionListTop.put("icon_url", icon_url);
 
-                        //add region 7 list
+
+                        //add
                         top_restaurant.add(tempregionListTop);
 
                     }
@@ -608,7 +575,7 @@ public class SearchFragment extends Fragment {
                     Log.d("fdg", String.valueOf(cone.getDouble("rating")));
                     Log.d("ccccc", cone.toString());
                     JSONArray jsonsmall_img = cone.getJSONArray("small_icon_categories");
-
+                    smallimagelist.clear();
                     for (int j = 0; j < jsonsmall_img.length(); j++) {
                         JSONObject jsonObject2 = jsonsmall_img.getJSONObject(j);
                         smallimagelist.add(jsonObject2.getString("small_image"));
@@ -616,8 +583,6 @@ public class SearchFragment extends Fragment {
 
                     restaurant.setStringArrayList(smallimagelist);
                     single_listrest.add(restaurant);
-
-
                 }
             } else {
                     Toast.makeText(getActivity(), "" + message, Toast.LENGTH_SHORT).show();
@@ -669,8 +634,6 @@ public class SearchFragment extends Fragment {
                     android.R.layout
                             .simple_spinner_dropdown_item);
             region.setAdapter(reg);
-
-
             //////top restaurents
                 RecyclerView.LayoutManager layoutManager2 = new GridLayoutManager(getContext(),2);
                 rectop_restaurant.setLayoutManager(layoutManager2);
@@ -678,7 +641,6 @@ public class SearchFragment extends Fragment {
                 rectop_restaurant.setAdapter(myRecyclerViewAdapter);
                 myRecyclerViewAdapter.notifyDataSetChanged();
                 rectop_restaurant.setNestedScrollingEnabled(false);
-
 
                 ///prime restaurents
                 RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext());
@@ -689,4 +651,23 @@ public class SearchFragment extends Fragment {
                 single_reclist.setNestedScrollingEnabled(false);
         }
     }
+//    private class OkHttpHandler_search extends AsyncTask<String,Void,String>{
+//        @Override
+//        protected void onPreExecute() {
+//            showpDialog();
+//        }
+//        @Override
+//        protected String doInBackground(String... url) {
+////            OkHttpClient httpClient = new OkHttpClient();
+////            HttpUrl.Builder httpBuilder = HttpUrl.parse(url[0]).newBuilder();
+//////            httpBuilder.addQueryParameter("type",type_search);
+//////            httpBuilder.addQueryParameter("location",select_location_id);
+//////            httpBuilder.addQueryParameter("categories",select_categories_id);
+////            Request request = new Request.Builder().url(httpBuilder.build()).build();
+////            Response response = null;
+//            return null;
+//        }
+//    }
+
+
 }
