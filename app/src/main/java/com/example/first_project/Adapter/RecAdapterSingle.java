@@ -60,7 +60,7 @@ public class RecAdapterSingle extends RecyclerView.Adapter<RecAdapterSingle.View
 
     @Override
     public int getItemCount() {
-        return single_catList.size();
+        return (null != single_catList ? single_catList.size():0);
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView single_image;

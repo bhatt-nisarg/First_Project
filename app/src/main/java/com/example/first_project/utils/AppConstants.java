@@ -12,5 +12,6 @@ public class AppConstants {
     public static final String CLICKED_REGION_SINGLE_LIST= API_URL+"search_region_data_hvk";
     public static final String CLICKED_CATEGORY_DATA = API_URL + "categories_id?cat_id=";
     public static final String SEARCH_RESULT_DATA = API_URL + "search_data_hvk";
+    public static final String REGION_CLICK_DATA = API_URL + "search_region_data_hvk?location=";
 
 }

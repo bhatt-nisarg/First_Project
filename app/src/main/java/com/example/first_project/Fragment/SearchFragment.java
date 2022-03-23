@@ -471,7 +471,7 @@ public class SearchFragment extends Fragment {
 
                 //looping through All Contacts
                 for (int i = 0; i < cat.length(); i++) {
-
+                    Restaurant restaurant = new Restaurant();
                     JSONObject cr = cat.getJSONObject(i);
                     Log.d("ccccc", cr.toString());
                     String id = cr.getString("id");
